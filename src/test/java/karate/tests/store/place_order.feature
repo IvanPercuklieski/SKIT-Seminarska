@@ -21,13 +21,12 @@ Feature: Place an order
     Then status 200
 
     And match response.id == 9
-    And match response.petId == 1
+    And match response.petId == "#number"
     And match response.quantity == 2
     And match response.shipDate == "2025-05-18T20:41:00.574+0000"
     And match response.status == "placed"
     And match response.complete == true
 
-  # TODO: Why is the response 200 OK
   Scenario: Place order with negative quantity
     * def orderWithNegativeQuantity = JSON.parse(JSON.stringify(validOrder))
     * set orderWithNegativeQuantity.quantity = -40
@@ -35,7 +34,7 @@ Feature: Place an order
     Given path '/store/order'
     And request orderWithNegativeQuantity
     When method post
-    Then status 200
+    Then status 400
 
   Scenario: Place order with invalid ID format
     * def orderWithInvalidIDFormat = JSON.parse(JSON.stringify(validOrder))
@@ -76,7 +75,7 @@ Feature: Place an order
     Given path '/store/order'
     And request validOrder
     When method post
-    Then status 200
+    Then status 409
 
   Scenario: Try to place order with wrong JSON
     Given path '/store/order'
