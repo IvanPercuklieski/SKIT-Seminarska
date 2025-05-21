@@ -5,7 +5,7 @@ Feature: Delete order by ID
     * def exampleOrder =
     """
     {
-      "id": 23,
+      "id": 9852,
       "petId": 1,
       "quantity": 2,
       "shipDate": "2095-05-18T20:41:00.574Z",
@@ -20,10 +20,10 @@ Feature: Delete order by ID
     When method post
     Then status 200
 
-    Given path '/store/order/23'
+    Given path '/store/order/9852'
     When method delete
     Then status 200
-    And match response.message == "23"
+    And match response.message == "9852"
 
   Scenario: Deleting an order that doesnt exist
     Given path '/store/order/777777777777777'
