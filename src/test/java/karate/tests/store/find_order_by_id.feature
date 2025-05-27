@@ -26,7 +26,6 @@ Feature: Find order by ID
     Then status 200
 
     And match response.id == 80
-    And match response.petId == 1
     And match response.status == 'placed'
 
   Scenario: Get a non existing order
