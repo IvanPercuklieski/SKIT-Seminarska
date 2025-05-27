@@ -1,31 +1,22 @@
 Feature: Find order by ID
 
   Background:
-    * url 'https://petstore.swagger.io/v2'
-    * def exampleOrder =
-    """
-    {
-      "id": 80,
-      "petId": 1,
-      "quantity": 2,
-      "shipDate": "2095-05-18T20:41:00.574Z",
-      "status": "placed",
-      "complete": true
-    }
-    """
+    * call read('common.feature')
+    * url baseUrl
 
-  Scenario: Get an order thet exists
+  Scenario: Get an order that exists
     # Place order
     Given path '/store/order'
     And request exampleOrder
     When method post
     Then status 200
 
-    Given path 'store/order/80'
+    # Get the placed order
+    Given path 'store/order' , exampleOrder.id
     When method get
     Then status 200
 
-    And match response.id == 80
+    And match parseInt(response.id) == exampleOrder.id
     And match response.status == 'placed'
 
   Scenario: Get a non existing order
@@ -40,6 +31,6 @@ Feature: Find order by ID
     Then status 404
 
   Scenario: Get order without an ID
-    Given path 'store/order'
+    Given path 'store/order/'
     When method get
     Then status 405

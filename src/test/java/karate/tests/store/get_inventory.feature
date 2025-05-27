@@ -1,7 +1,8 @@
 Feature: Get store inventory
 
   Background:
-    * url 'https://petstore.swagger.io/v2'
+    * call read('common.feature')
+    * url baseUrl
 
   Scenario: Checking sold, pending and available
     Given path '/store/inventory'
