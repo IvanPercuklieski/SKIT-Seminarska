@@ -7,14 +7,14 @@ Feature: Find order by ID
   Scenario: Get an order that exists
     # Place order
     Given path '/store/order'
-    And request exampleOrder
+    And request validOrder
     When method post
     Then status 200
 
     # Get order
     * configure retry = { count: 5, interval: 1000 }
-    * retry until responseStatus == 200 && parseInt(response.id) == exampleOrder.id
-    Given path '/store/order', exampleOrder.id
+    * retry until responseStatus == 200 && parseInt(response.id) == validOrder.id
+    Given path '/store/order', validOrder.id
     When method get
 
 

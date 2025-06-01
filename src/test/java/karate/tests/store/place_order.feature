@@ -71,7 +71,7 @@ Feature: Place an order
     When method post
     Then status 200
     # Logical Response should be 409 for conflict
-    # But the backend allows duplicates
+    # But the backend allows duplicates and/or rewrites the order
 
 
   Scenario: Placing an order with extra fields

@@ -7,21 +7,21 @@ Feature: Delete order by ID
   Scenario: Deleting an order that exists
     # Placing an order
     Given path '/store/order'
-    And request exampleOrder
+    And request validOrder
     When method post
     Then status 200
 
     # Check if the order is placed
     * configure retry = { count: 5, interval: 1000 }
-    Given path '/store/order', exampleOrder.id
+    Given path '/store/order', validOrder.id
     When method get
     Then retry until responseStatus == 200
 
     # Deleting the same order
-    Given path '/store/order', exampleOrder.id
+    Given path '/store/order', validOrder.id
     When method delete
     Then status 200
-    And match parseInt(response.message) == exampleOrder.id
+    And match parseInt(response.message) == validOrder.id
 
 
   Scenario: Try to delete an order that doesnt exist
