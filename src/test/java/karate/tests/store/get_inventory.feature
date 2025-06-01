@@ -4,7 +4,7 @@ Feature: Get store inventory
     * call read('common.feature')
     * url baseUrl
 
-  Scenario: Checking sold, pending and available
+  Scenario: Verify response is a key-value map, where the values are the quantities
     Given path '/store/inventory'
     When method get
     Then status 200
@@ -13,7 +13,8 @@ Feature: Get store inventory
     And match response.pending == '#number'
     And match response.available == '#number'
 
-  Scenario: Check that inventory response is a map of string keys and number values
+
+  Scenario: Check common elements like "sold", "pending" and "available"
     Given path '/store/inventory'
     When method get
     Then status 200

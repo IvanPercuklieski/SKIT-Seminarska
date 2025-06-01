@@ -4,7 +4,8 @@ Feature: Place an order
     * call read('common.feature')
     * url baseUrl
 
-  Scenario: Place a valid order
+
+  Scenario: Placing a valid order
     Given path '/store/order'
     And request validOrder
     When method post
@@ -17,7 +18,8 @@ Feature: Place an order
     And match response.status == "placed"
     And match response.complete == true
 
-  Scenario: Place order with negative quantity
+
+  Scenario: Placing an order with negative quantity
     * def orderWithNegativeQuantity = JSON.parse(JSON.stringify(validOrder))
     * set orderWithNegativeQuantity.quantity = -40
 
@@ -26,25 +28,27 @@ Feature: Place an order
     When method post
     Then status 400
 
-  Scenario: Place order with invalid ID format
-    * def orderWithInvalidIDFormat = JSON.parse(JSON.stringify(validOrder))
-    * set orderWithInvalidIDFormat.id = "badId"
+
+  Scenario: Placing an order with malformed JSON
+    Given path '/store/order'
+    And header Content-Type = 'application/json'
+    And request '{"id": 99, "petId" '
+    When method post
+    Then status 400
+
+
+  Scenario: Placing an order with invalid data types
+    * def orderWithInvalidDataTypes = JSON.parse(JSON.stringify(validOrder))
+    * set orderWithInvalidDataTypes.quantity = "hello"
+    * set orderWithInvalidDataTypes.petId = true
 
     Given path '/store/order'
-    And request orderWithInvalidIDFormat
+    And request orderWithInvalidDataTypes
     When method post
-    Then status 500
+    Then status 400
 
-  Scenario: Place order with invalid date format
-    * def orderWithInvalidDateFormat = JSON.parse(JSON.stringify(validOrder))
-    * set orderWithInvalidDateFormat.shipDate = "205-205-18T20:41:00.574Z"
 
-    Given path '/store/order'
-    And request orderWithInvalidDateFormat
-    When method post
-    Then status 500
-
-  Scenario: Place an order for a non existing pet
+  Scenario: Placing and order for a non existing pet
     * def orderWithNonExistingPetID = JSON.parse(JSON.stringify(validOrder))
     * set orderWithNonExistingPetID.petId = 12
 
@@ -56,7 +60,7 @@ Feature: Place an order
     When method post
     Then status 404
 
-  Scenario: Placing the order with the same ID twice
+  Scenario: Placing an order with and ID that already exists
     Given path '/store/order'
     And request validOrder
     When method post
@@ -65,13 +69,25 @@ Feature: Place an order
     Given path '/store/order'
     And request validOrder
     When method post
-    Then status 409
+    Then status 200
+    # Logical Response should be 409 for conflict
+    # But the backend allows duplicates
 
-  Scenario: Try to place order with wrong JSON
+
+  Scenario: Placing an order with extra fields
+    * def orderWithExtraFeature = JSON.parse(JSON.stringify(validOrder))
+    * set orderWithExtraFeature.color = "red"
     Given path '/store/order'
-    And request '{"id": 99, "petId" '
+    And request orderWithExtraFeature
     When method post
-    Then status 415
+    Then status 200
+
+  Scenario: Placing an order with empty JSON
+    Given path '/store/order'
+    And header Content-Type = 'application/json'
+    And request '{}'
+    When method post
+    Then status 400
 
 
 

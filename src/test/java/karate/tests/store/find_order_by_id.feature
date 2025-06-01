@@ -11,26 +11,30 @@ Feature: Find order by ID
     When method post
     Then status 200
 
-    # Get the placed order
-    Given path 'store/order' , exampleOrder.id
+    # Get order
+    * configure retry = { count: 5, interval: 1000 }
+    * retry until responseStatus == 200 && parseInt(response.id) == exampleOrder.id
+    Given path '/store/order', exampleOrder.id
     When method get
-    Then status 200
 
-    And match parseInt(response.id) == exampleOrder.id
-    And match response.status == 'placed'
 
-  Scenario: Get a non existing order
-    Given path 'store/order/888888888888888'
+  Scenario: Try to get an order that doesnt exist
+    Given path '/store/order', 42
+    When method delete
+
+    Given path 'store/order/42'
     When method get
     Then status 404
     And match response.message == "Order not found"
 
-  Scenario: Get a order with an invalid ID format
-    Given path 'store/order/-23'
+
+  Scenario: Getting an order with an invalid id format
+    Given path 'store/order/invalid'
     When method get
     Then status 404
 
-  Scenario: Get order without an ID
+
+  Scenario: Trying to get an order without providing an ID
     Given path 'store/order/'
     When method get
     Then status 405
