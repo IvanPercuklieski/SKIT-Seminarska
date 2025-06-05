@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-Feature: Find pet by status
 
-  Background:
-    * url 'https://petstore.swagger.io/v2'
-
-
-  Scenario:Find pets with valid multiple status values
-=======
 Feature: Find pets by status (GET /pet/findByStatus)
 
   Background:
@@ -20,7 +12,7 @@ Feature: Find pets by status (GET /pet/findByStatus)
 
 
   Scenario: Find pets with multiple valid statuses
->>>>>>> 97b0c7f (Added Karate feature files for pet endpoints, karate-config.js with the url and random id generator and README.md .)
+
     Given path 'pet/findByStatus'
     And param status = 'available,pending'
     When method get
