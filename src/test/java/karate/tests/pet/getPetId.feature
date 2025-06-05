@@ -1,21 +1,54 @@
-Feature: Find pet by Id
+
+Feature: Find pets by ID (GET /pet/{id})
   Background:
-    * url 'https://petstore.swagger.io/v2'
+    * url petstoreUrl
 
-  Scenario:Get a pet by valid ID
-    Given path 'pet', 7329
-    When method get
-    Then status 404
-    And match response.message == "Pet not found"
+  Scenario: Create then get pet by ID
 
-  Scenario:Get a pet by valid ID 2
-    Given path 'pet', 1
+    * def id = getRandomValue()
+    * def pet = { id: '#(id)', name: 'Fluffy', photoUrls: ['http://example.com'], status: 'available' }
+
+    Given path 'pet'
+    And request pet
+    When method post
+    Then status 200
+
+    Given path 'pet', id
     When method get
     Then status 200
-    And match response.id == 1
 
-  Scenario: Get a pet by invalid ID
+
+
+
+  Scenario: Get pet by string ID
+    * def petId = 'abc'
+    Given path 'pet', 'abc'
+    When method get
+    Then status 400
+
+
+  Scenario:  Get pet with negative ID
+    * def petId = -1
     Given path 'pet', -1
     When method get
     Then status 404
-    And match response.message == 'Pet not found'
+
+  Scenario:  Get pet with null ID
+
+    Given path 'pet', null
+    When method get
+    Then status 400
+
+  Scenario:  Get pet with empty pet ID
+    * def petId = ''
+    Given path 'pet', ''
+    When method get
+    Then status 400
+
+  Scenario: Get pet with decimal ID
+    Given path 'pet', 123.45
+    When method get
+    Then status 400
+
+
+

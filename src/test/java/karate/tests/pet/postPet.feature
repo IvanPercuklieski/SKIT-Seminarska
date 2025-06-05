@@ -1,68 +1,102 @@
-Feature: Add a new pet to the store
+
+Feature: Add a new pet to the store (POST /pet)
+
+
 
   Background:
-    * url 'https://petstore.swagger.io/v2'
+    * url petstoreUrl
 
 
-  Scenario: Add a new pet to the store
+
+
+Scenario: Add a new pet with valid JSON
+
+    * def id = getRandomValue()
+    * def body =  {id: '#(id)', category: {id: 0,name: 'dogs'},name: 'Milo',photoUrls: ['http://example.com/dog.jpg'],tags: [{id: 0,name: 'friendly'}],status: 'available'}
+
     Given path 'pet'
-    And request { "id": 4, "name": "Lali", "status": "available" }
+    And request body
     When method post
     Then status 200
-    And match response.name == 'Lali'
-    And match response.status == 'available'
+    And match response.id == id
 
 
-  Scenario: Add a new pet to the store 2
+
+  Scenario: Add pet with unknown/invalid field
+    * def body = {"invalidField" : "oops"}
     Given path 'pet'
-    And request { "id": 5, "name": "Mimi", "status": "available" }
+    And request body
+    When method post
+    Then status 400
+
+  Scenario: POST with invalid Content-Type
+    * header Content-Type = 'text/plain'
+    Given path 'pet'
+    And request 'id=1&name=BadFormat'
+    When method post
+    Then status 415
+
+
+
+
+  Scenario: Add pet with invalid ID (non-numeric)
+    * def body = { "id": "abc", "name": "Rex" }
+    Given path 'pet'
+    And request body
+    When method post
+    Then status 400
+
+
+  Scenario:  Add pet with empty ID
+    * def body = { "id": "" }
+    Given path 'pet'
+    And request body
+    When method post
+    Then status 400
+
+
+  Scenario: Add pet with only one parameter
+    * def body = { "name": "Fluffy" }
+    Given path 'pet'
+    And request body
+    When method post
+    Then status 400
+
+
+  Scenario: Add pet with no parameters
+    Given path 'pet'
+    And request {}
+    When method post
+    Then status 400
+
+  Scenario: Create pet with duplicate ID
+    * def duplicateId = getRandomValue()
+    * def pet = {id: '#(duplicateId)',name: "OriginalPet",photoUrls: ["http://example.com/photo.jpg"],status: "available"}
+
+    Given path 'pet'
+    And request pet
     When method post
     Then status 200
-    And match response.name == 'Mimi'
-    And match response.status == 'available'
 
-  Scenario: Add a new pet to the store 2
+    # Try to create the same pet again
     Given path 'pet'
-    And request { "id": 14, "name": "Mimi", "status": "available" }
+    And request pet
     When method post
-    Then status 200
-    And match response.name == 'Mimi'
-    And match response.status == 'available'
+    Then status 409
+    #409 - Conflict
 
 
-  Scenario: Add a pet with invalid JSON
+  Scenario: Create pet with null nested fields
+    * def id = getRandomValue()
+    * def pet = {id: '#(id)',name: "NullNestedPet",photoUrls: null,category: null,status: "available"}
+
     Given path 'pet'
-    And request { "id": "not-a-number" , "name": "Fluffy", "breed": "Poodle", "age": 3  }
+    And request pet
     When method post
-    Then status 500
-    And match response.message == 'something bad happened'
+    Then status 400
 
 
 
-  Scenario: Add a pet with invalid JSON
-    Given path 'pet'
-    And request { "id": not-a-number , "name": 123, "breed": "Poodle", "age": 3  }
-    When method post
-    Then status 500
-    And match response.message == 'something bad happened'
-
-
-
-  Scenario: Add a pet without providing an id, and the API assigns a default id
-    Given path 'pet'
-    And request { "name": "Fluffy", "status": "available" }
-    When method post
-    Then status 200
-    And match response.name == 'Fluffy'
-    And match response.status == 'available'
-    And assert response.id != null
-
-  Scenario: Add a pet without providing anything
-    Given path 'pet'
-    And request { }
-    When method post
-    Then status 200
-    And assert response.id != null
 
 
 
