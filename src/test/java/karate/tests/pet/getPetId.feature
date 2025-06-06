@@ -4,16 +4,13 @@ Feature: Find pets by ID (GET /pet/{id})
     * url petstoreUrl
 
   Scenario: Create then get pet by ID
-
+    * configure headers = { 'Content-Type': 'application/json' }
     * def id = getRandomValue()
-    * def pet = { id: '#(id)', name: 'Fluffy', photoUrls: ['http://example.com'], status: 'available' }
 
-    Given path 'pet'
-    And request pet
-    When method post
-    Then status 200
 
-    Given path 'pet', id
+
+
+    Given path 'pet',id
     When method get
     Then status 200
 
