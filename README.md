@@ -61,7 +61,7 @@ mvn test
 ```
 
 > Or, run individual feature files via IntelliJ IDEA / VS Code Karate plugin.
-> Runt he AllTests.java, PetTests.java, StoreTests.java or UserTests.java
+> Run the AllTests.java, PetTests.java, StoreTests.java or UserTests.java
 
 ##  Key Highlights
 
