@@ -2,7 +2,7 @@ Feature: Find order by ID
 
   Background:
     * call read('common.feature')
-    * url baseUrl
+    # * url baseUrl
 
   Scenario: Get an order that exists
     # Place order
