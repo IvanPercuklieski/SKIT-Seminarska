@@ -1,5 +1,5 @@
 
-#  Petstore API Test Suite – Karate Framework test
+#  Petstore API Test Suite – Karate Framework
 
 > Comprehensive automated API test suite for [Swagger Petstore](https://petstore.swagger.io/v2), written using Karate Framework. 
 > Covers CRUD operations, validation rules, status code handling, and error conditions across all key endpoints.
