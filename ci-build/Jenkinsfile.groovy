@@ -29,7 +29,7 @@ pipeline {
         stage('Run All Karate Tests') {
             steps {
                 catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
-                    sh 'mvn test -Dtest=com.petstore.AllTests -Dkarate.options=classpath:karate/tests/'
+                    bat 'mvn test -Dtest=com.petstore.AllTests -Dkarate.options=classpath:karate/tests/'
                 }
             }
             post {
