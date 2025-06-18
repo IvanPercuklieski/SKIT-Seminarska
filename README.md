@@ -5,6 +5,7 @@
 > Covers CRUD operations, validation rules, status code handling, and error conditions across all key endpoints.
 
 ##  Project Structure
+```
 
 src/test/
 ├── java/
@@ -48,11 +49,10 @@ src/test/
 │   └── images/
 │       └── dog.jpg               # Sample image for upload tests
 
-
-
 ```
 
-##  What’s Covered
+
+## ✅ What’s Covered
 
 ### 🐾 **Pet Endpoint**
 
@@ -86,18 +86,20 @@ src/test/
 * **`GET /user/login`** – Valid credentials, invalid login, missing/empty username or password
 * **`GET /user/logout`** – Valid logout, multiple logouts, logout without login
 
+---
 
 ##  How to Run
 
 ### Prerequisites
-
+```
 - Java 8 or higher
 - Maven or Gradle
 - Karate (via Maven dependency or CLI)
-
+```
 ###  Run All Tests via Maven
 
-```bash
+```
+bash
 mvn test
 ```
 
