@@ -2,7 +2,7 @@ Feature: Place an order
 
   Background:
     * call read('common.feature')
-    * url baseUrl
+    # * url baseUrl
 
 
   Scenario: Placing a valid order

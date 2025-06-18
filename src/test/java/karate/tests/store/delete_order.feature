@@ -2,7 +2,7 @@ Feature: Delete order by ID
 
   Background:
     * call read('common.feature')
-    * url baseUrl
+    # * url baseUrl
 
   Scenario: Deleting an order that exists
     # Placing an order

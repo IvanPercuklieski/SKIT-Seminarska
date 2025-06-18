@@ -1,7 +1,7 @@
 Feature: Common utils
 
   Background:
-    * def baseUrl =  'https://petstore.swagger.io/v2'
+    * configure url = 'https://petstore.swagger.io/v2'
 
     * def validOrder =
       """

@@ -2,7 +2,7 @@ Feature: Get store inventory
 
   Background:
     * call read('common.feature')
-    * url baseUrl
+    # * url baseUrl
 
   Scenario: Verify response is a key-value map, where the values are the quantities
     Given path '/store/inventory'
