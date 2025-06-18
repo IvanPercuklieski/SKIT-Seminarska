@@ -78,5 +78,5 @@ mvn test
 
 ##  Author
 
-**Verica Chochorovska**  
+**Verica Chochorovska**  **Bojana Andonova** **Ivan Perchuklieski** 
 Karate API Test Automation
