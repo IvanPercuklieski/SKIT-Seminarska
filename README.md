@@ -25,7 +25,18 @@
 │       │       ├── postPetUpdate.feature
 │       │       └── putPet.feature
 │       │    └── karate-config.js
-│       │
+│       │       
+│       │ ── ──  ── karate/tests/user/
+│       │        ├──  common-user.feature
+│       │        ├──  create-user.feature
+│       │        ├──  create-users-with-array.feature
+│       │        ├──  create-users-with-list.feature
+│       │        ├──  delete-user-by-username.feature
+│       │        ├──  get-user-by-username.feature
+│       │        ├──  login-user.feature
+│       │        ├──  logout-user.feature
+│       │        ├──  update-user-by-username.feature
+│       │        │  
 │       └── resources/
 │           └── images/
 │               └── dog.jpg
